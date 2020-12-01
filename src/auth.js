@@ -15,9 +15,11 @@ function loginFor(type)
 
 async function login(url, username, password, cas, account)
 {
-console.log('enter login');
+console.log('getServer');
     const server = getServer(url);
+console.log('getStart');
     const start = await getStart(server, username, password, cas, account);
+console.log('PronoteSession');
     const session = new PronoteSession({
         serverURL: server,
         sessionID: start.h,
@@ -31,12 +33,15 @@ console.log('enter login');
         keyExponent: start.ER
     })
 
+console.log('getParams');
     session.params = await getParams(session);
+console.log('auth');
     if (cas === 'none') {
         await auth(session, username, password, false);
     } else {
         await auth(session, start.e, start.f, true);
     }
+console.log('getUser');
     session.user = await getUser(session);
 
     return session;
