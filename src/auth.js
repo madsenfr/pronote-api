@@ -15,6 +15,7 @@ function loginFor(type)
 
 async function login(url, username, password, cas, account)
 {
+console.log('enter login');
     const server = getServer(url);
     const start = await getStart(server, username, password, cas, account);
     const session = new PronoteSession({
