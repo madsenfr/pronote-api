@@ -47,10 +47,14 @@ console.log('getOrigin');
 console.log(`redirectURL = ${redirectURL}`);
 
 console.log('axioRequest');
+try {
     response = await axioRequest({
         url: redirectURL,
         jar
     })
+} catch (err) {
+    console.error(err);
+}
 console.log(`response = ${JSON.stringify(response)}`);
     // eslint-disable-next-line max-len
     const remoteUserParsed = response.data.match(/<conversation>(.+)<\/conversation><uidInSession>(.+)<\/uidInSession>/u)
