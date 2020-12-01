@@ -8,11 +8,13 @@ const http = require('../http');
 
 async function login(url, account, username, password) {
     const jar = new jsdom.CookieJar();
+console.log('getDOM');
     let dom = await getDOM({
         url: 'https://www.toutatice.fr/portail/auth/pagemarker/2/MonEspace',
         jar
     });
 
+console.log('submitForm');
     dom = await submitForm({
         dom,
         jar,
@@ -22,15 +24,18 @@ async function login(url, account, username, password) {
             _saml_idp: 'educonnect'
         }
     });
+console.log('educonnect');   
     dom = await educonnect({ dom, jar, url, account, username, password });
 
     let redirectURL = dom.window.document.getElementsByTagName('a')[0].href
 
+console.log('axioRequest');
     let response = await axioRequest({
         url: redirectURL,
         jar
     })
 
+console.log('getOrigin');
     redirectURL = getOrigin(redirectURL) + response.headers.location
 
     const parsed = querystring.parse(redirectURL.split('?')[1])
@@ -40,6 +45,7 @@ async function login(url, account, username, password) {
     // eslint-disable-next-line max-len
     redirectURL = `${getOrigin(redirectURL)}/idp/Authn/RemoteUser?conversation=${conversation}&redirectToLoaderRemoteUser=0&sessionid=${sessionid}`
 
+console.log('axioRequest');
     response = await axioRequest({
         url: redirectURL,
         jar
@@ -53,12 +59,14 @@ async function login(url, account, username, password) {
     // eslint-disable-next-line max-len
     redirectURL = `${getOrigin(redirectURL)}/idp/Authn/RemoteUser?conversation=${remoteUserConversation}&uidInSession=${uidInSession}&sessionid=${sessionid}`
 
+console.log('http');
     response = await http({
         url: redirectURL,
         jar,
         followRedirects: true
     })
 
+console.log('extractStart');
     return extractStart(await getDOM({
         url: `${url}${account.value}.html`,
         jar,
