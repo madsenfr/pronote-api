@@ -51,6 +51,7 @@ console.log('axioRequest');
         url: redirectURL,
         jar
     })
+console.log(`response = ${JSON.stringify(response)}`);
     // eslint-disable-next-line max-len
     const remoteUserParsed = response.data.match(/<conversation>(.+)<\/conversation><uidInSession>(.+)<\/uidInSession>/u)
 
