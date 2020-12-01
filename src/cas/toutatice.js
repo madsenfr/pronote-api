@@ -26,8 +26,10 @@ console.log('submitForm');
     });
 console.log('educonnect');   
     dom = await educonnect({ dom, jar, url, account, username, password });
+console.log(`dom = ${dom}`);
 
     let redirectURL = dom.window.document.getElementsByTagName('a')[0].href
+console.log(`redirectURL = ${redirectURL}`);
 
 console.log('axioRequest');
     let response = await axioRequest({
