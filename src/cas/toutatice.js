@@ -26,10 +26,8 @@ console.log('submitForm');
     });
 console.log('educonnect');   
     dom = await educonnect({ dom, jar, url, account, username, password });
-console.log(`dom = ${dom}`);
 
     let redirectURL = dom.window.document.getElementsByTagName('a')[0].href
-console.log(`redirectURL = ${redirectURL}`);
 
 console.log('axioRequest');
     let response = await axioRequest({
@@ -46,6 +44,7 @@ console.log('getOrigin');
 
     // eslint-disable-next-line max-len
     redirectURL = `${getOrigin(redirectURL)}/idp/Authn/RemoteUser?conversation=${conversation}&redirectToLoaderRemoteUser=0&sessionid=${sessionid}`
+console.log(`redirectURL = ${redirectURL}`);
 
 console.log('axioRequest');
     response = await axioRequest({
